@@ -1,6 +1,6 @@
 # ShellLite Website
 
-The official website for **ShellLite**, written **100% purely in ShellLite**.
+The official website for **ShellLite**, written **mostly written in ShellLite***.
 
 **Live at:** [shelllite.tech](http://shelllite.tech)
 
