@@ -1,24 +1,29 @@
+use python "subprocess"
+use python "os"
+use python "os.path" as path
+use python "random"
+
 use "compiler_v2.shl"
 
 serve files from "public" at "/static"
 
-define page Head using title_text
+define page PageMetadata using title_text
     head
         title title_text
         link rel="stylesheet" href="/static/style.css"
         meta charset="utf-8"
         meta name="viewport" content="width=device-width, initial-scale=1.0"
 
-define page HomeHead using title_text
+define page LandingPageMetadata using title_text
     head
         title title_text
         link rel="stylesheet" href="/static/style.css"
         meta charset="utf-8"
         meta name="viewport" content="width=device-width, initial-scale=1.0"
         script type="application/ld+json" 
-            '{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "ShellLite", "applicationCategory": "DeveloperApplication", "operatingSystem": "Cross-platform", "url": "https://shelllite.tech", "author": { "@type": "Person", "name": "Shrey Naithani", "url": "https://shreyn.tech" }, "description": "An English-like programming language designed for human readability and native LLVM performance.", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "softwareVersion": "0.5.3.2", "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD" }, "codeRepository": "https://github.com/Shrey-N/ShellLite"}'
+            '{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "ShellLite", "applicationCategory": "DeveloperApplication", "operatingSystem": "Cross-platform", "url": "https://shelllite.tech", "author": { "@type": "Person", "name": "Shrey Naithani", "url": "https://shreyn.tech" }, "description": "An English like programming language designed for human readability and native LLVM performance.", "license": "https://www.gnu.org/licenses/gpl-3.0.html", "softwareVersion": "0.6.0", "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD" }, "codeRepository": "https://github.com/ShellLite/ShellLite"}'
 
-define page Navbar
+define page GlobalNavigation
     header
         div class="container"
             nav
@@ -28,22 +33,22 @@ define page Navbar
                     a href="/compiler" "Compiler"
                     a href="/docs" "Docs"
                     a href="/contact" "Contact"
-                    a href="https://github.com/Shrey-N/ShellLite" "GitHub"
+                    a href="https://github.com/ShellLite/ShellLite" "GitHub"
 
-define page Footer
+define page UniversalFooter
     footer
         div class="container"
             p 
                 span "This website was written using "
-                strong "ShellLite only. "
-                span style="font-style: italic; color: #58a6ff;" "Code like you think."
+                strong "ShellLite."
+                span style="font-style: italic; color: #60a5fa;" "Code like you think!"
             p style="font-size: 0.8em; margin-top: 10px;" "© 2025-Present Shrey Naithani"
 
-define page Home
+define page LandingPage
     html
-        HomeHead "ShellLite - Code like you think"
+        LandingPageMetadata "ShellLite - Code like you think"
         body
-            Navbar
+            GlobalNavigation
             
             div class="hero"
                 div class="container"
@@ -52,7 +57,7 @@ define page Home
                     
                     div class="action-buttons"
                         a href="/compiler" class="btn btn-primary" "Try Online Compiler"
-                        a href="/static/ShellLite.exe" class="btn btn-outline" "Download ShellLite (.exe)"
+                        a href="/static/ShellLite.exe" class="btn btn-outline" "Download ShellLite (v0.6.0)"
 
             div class="container"
                 div class="grid"
@@ -61,44 +66,45 @@ define page Home
                         p "ShellLite reads like a story, making code accessible to everyone."
                     div class="card"
                         h3 "Powerful"
-                        p "Built on Python, giving you access to a massive ecosystem of libraries."
+                        p "Native LLVM performance paired with a massive Python ecosystem."
                     div class="card"
                         h3 "Versatile"
                         p "From simple automation scripts to full web servers and GUI apps."
 
             div class="container" style="margin-top: 40px;"
-                h2 "Publications"
+                h2 "Publications & Research"
                 div class="grid"
                     div class="card"
-                        h3 "Books"
-                        p "Check out my latest book on ShellLite."
+                        h3 "The ShellLite Book"
+                        p "Learn the architecture and design of English-like compilers."
                         div style="margin-top: 15px;"
-                            a href="https://books2read.com/b/mVpoXM" class="btn btn-outline" "Read Book"
+                            a href="https://books2read.com/b/mVpoXM" class="btn btn-outline" "Read Now"
                     div class="card"
-                        h3 "Research Papers"
-                        div class="docs-list"
-                            a href="https://doi.org/10.5281/zenodo.18385614" "DOI: 10.5281/zenodo.18385614"
-                            a href="https://doi.org/10.5281/zenodo.18228699" "DOI: 10.5281/zenodo.18228699"
+                        h3 "Research Artifacts"
+                        p "Scientific papers detailing the theory of geometric binding and English-like compilers."
+                        div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;"
+                            a href="https://doi.org/10.5281/zenodo.18385614" class="btn btn-outline" "Geometric Binding Parser"
+                            a href="https://doi.org/10.5281/zenodo.18228699" class="btn btn-outline" "Natural Language Programming"
 
-            Footer
+            UniversalFooter
 
-define page DocsList
+define page DocumentationBrowser
     html
         head
             title "Documentation - ShellLite"
             link rel="stylesheet" href="/static/style.css"
             meta charset="utf-8"
             meta name="viewport" content="width=device-width, initial-scale=1.0"
-            script src="https://unpkg.com/3d-force-graph"
+            script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1/dist/3d-force-graph.min.js"
         body
-            Navbar
+            GlobalNavigation
             
             div class="container" style="padding-top: 40px;"
                 h1 "Documentation"
-                p class="tagline" "Master the art of ShellLite."
+                p class="tagline" "Master the art of English-like programming."
                 
                 div class="graph-section"
-                    h2 "Learning Path"
+                    h2 "Visual Learning Path"
                     p "Click a topic to explore. Follow the arrows for recommended learning order."
                     div id="docs-graph" class="docs-graph-container"
                 
@@ -123,7 +129,7 @@ define page DocsList
                             a href="/docs/11_Testing_and_Debugging.md" "11. Testing & Debugging"
                     
                     div class="card"
-                        h3 "Reference & Guides"
+                        h3 "Reference"
                         div class="docs-list"
                             a href="/docs/12_API_Reference.md" "12. API Reference"
                             a href="/docs/13_Security_Guide.md" "13. Security Guide"
@@ -131,63 +137,56 @@ define page DocsList
                             a href="/docs/15_Troubleshooting.md" "15. Troubleshooting"
                             a href="/docs/16_Examples_and_Tutorials.md" "16. Examples"
                             a href="/docs/17_Best_Practices.md" "17. Best Practices"
-
+ 
             script src="/static/docs_graph.js"
-            Footer
+            UniversalFooter
 
-define page DocViewer
+define page DocumentReader
     html
         head
-            title "Doc Viewer - ShellLite"
+            title "Reader - ShellLite"
             link rel="stylesheet" href="/static/style.css"
             script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
             script src="/static/doc_viewer.js"
         body
-            Navbar
+            GlobalNavigation
             
-            div class="container" style="padding: 40px 20px; min-height: 60vh;"
-                div id="content" class="markdown-body" "Loading documentation..."
+            div class="container" style="padding: 60px 20px; min-height: 60vh;"
+                div id="content" class="markdown-body" "Opening document..."
 
-            Footer
+            UniversalFooter
 
-define page Contact
+define page ContactPage
     html
-        Head "Contact Us - ShellLite"
+        PageMetadata "Contact Us - ShellLite"
         body
-            Navbar
+            GlobalNavigation
             
-            div class="container" style="padding-top: 40px; min-height: 60vh;"
-                h1 "Contact Us"
-                p class="tagline" "We are here to help."
-                
-                div class="card" style="max-width: 600px; margin: 0 auto;"
-                    h3 "Get in touch"
-                    p "For any inquiries, bug reports, or feedback:"
-                    div style="margin-top: 20px;"
+            div class="container" style="padding-top: 60px; min-height: 70vh;"
+                div class="card" style="max-width: 700px; margin: 0 auto; text-align: center;"
+                    h1 "Let's Connect"
+                    p class="tagline" "Have questions? We're here to help."
+                    
+                    div style="margin-top: 40px; text-align: left;"
                         p 
                             strong "Email: " 
                             span "contact@shelllite.tech"
                         p 
                             strong "GitHub: " 
-                            a href="https://github.com/Shrey-N/ShellLite/issues" "Open an Issue"
-                        p
-                            strong "Wikidata: "
-                            a href="https://www.wikidata.org/wiki/Q137924590" "Language (Q137924590)"
-                            span " | "
-                            a href="https://www.wikidata.org/wiki/Q137924569" "Author (Q137924569)"
+                            a href="https://github.com/Shrey-N/ShellLite/issues" "Report a bug or request a feature"
             
-            Footer
+            UniversalFooter
 
 when someone visits "/"
-    Home
+    LandingPage
 
 when someone visits "/docs"
-    DocsList
+    DocumentationBrowser
 
 when someone visits "/docs/:file"
-    DocViewer
+    DocumentReader
 
 when someone visits "/contact"
-    Contact
+    ContactPage
 
 start website

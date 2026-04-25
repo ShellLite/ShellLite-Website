@@ -1,32 +1,31 @@
 define function runCode doing:
     code_input = document.getElementById("code-input")
-    code = code_input.value or "say 'Hello'"
-    
-    output_div = document.getElementById("output-display")
-    btn = document.querySelector(".run-btn")
-    
-    output_div.innerText = "Running..."
-    cl = btn.classList
-    cl.add("loading")
+    output_display = document.getElementById("output-display")
+    run_button = document.querySelector(".run-btn")
+    code = code_input.value or "say 'Hello World'"
+    output_display.innerText = "Executing script..."
+    button_state = run_button.classList
+    button_state.add("loading")
     
     try:
-        headers = { "Content-Type": "application/json" }
-        body_data = { "code": code }
-        body_str = JSON.stringify(body_data)
+        request_headers = { "Content-Type": "application/json" }
+        payload = { "code": code }
+        encoded_payload = JSON.stringify(payload)
         
-        options = { 
+        request_options = { 
             "method": "POST",
-            "headers": headers,
-            "body": body_str
+            "headers": request_headers,
+            "body": encoded_payload
         }
         
-        response = await fetch("/api/run", options)
-        result = await response.text()
+        server_response = await fetch("/api/run", request_options)
+        execution_result = await server_response.text()
         
-        output_div.innerText = result
-    catch e:
-        msg = e.message
-        output_div.innerText = "Error: " + msg
+        output_display.innerText = execution_result
+        
+    catch error:
+        error_message = error.message
+        output_display.innerText = "Network Error: " + error_message
+        
     finally:
-        cl = btn.classList
-        cl.remove("loading")
+        button_state.remove("loading")

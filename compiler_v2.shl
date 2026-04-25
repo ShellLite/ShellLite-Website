@@ -1,93 +1,96 @@
+use python "subprocess"
+use python "os"
+use python "os.path" as path
+use python "sys"
+use python "hashlib"
+use python "time"
+
 define page CompilerPage
     html
         head
-            title "ShellLite Online Compiler"
+            title "Interactive Playground - ShellLite"
             link rel="stylesheet" href="/static/style.css"
+            meta charset="utf-8"
+            meta name="viewport" content="width=device-width, initial-scale=1.0"
         body
-            header
-                div class="container"
-                    nav
-                        div class="logo" "ShellLite"
-                        div class="nav-links"
-                            a href="/" "Home"
-                            a href="/compiler" class="active" "Compiler"
-                            a href="/docs" "Docs"
+            GlobalNavigation
 
-            div class="container"
-                div class="editor-container"
-                    div class="editor-pane"
-                        div class="pane-header"
-                            h3 "Code Editor"
-                            div class="toolbar-buttons"
-                                button class="run-btn" onclick="runCode()" "Run (Ctrl+Enter)"
-                        div class="editor-wrapper"
-                            div id="line-numbers" class="line-numbers" "1"
-                            textarea id="code-input" "say 'Btw this compiler was also written purely using ShellLite :)'"
+            div class="container" style="padding-top: 60px;"
+                h1 "Interactive Playground"
+                p class="tagline" "Write ShellLite code in your browser and see it run instantly with native performance."
+                
+                div class="compiler-container"
+                    div class="compiler-header"
+                        div style="display: flex; align-items: center; gap: 12px;"
+                            div style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56;"
+                            div style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e;"
+                            div style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f;"
+                            span style="margin-left: 8px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;" "main.shl"
+                        button class="run-btn" onclick="runCode()" "Run Program"
                     
-                    div class="output-pane"
-                        div class="pane-header"
-                            h3 "Output"
-                            button class="clear-btn" onclick="clearOutput()" "Clear"
-                        div id="output-display" class="output-content" "// Output will appear here..."
+                    div class="compiler-body"
+                        div class="editor-pane"
+                            div id="line-numbers" class="line-numbers" "1"
+                            div class="editor-wrapper"
+                                textarea id="code-input" spellcheck="false" "say 'Welcome to the ShellLite Playground!'"
+                        
+                        div class="output-pane"
+                            div class="output-header"
+                                span "TERMINAL"
+                                button class="btn" style="background: transparent; color: #64748b; font-size: 0.7rem; padding: 4px 8px;" onclick="clearOutput()" "CLEAR"
+                            div id="output-display" "// Program output will appear here..."
+                
+                div style="margin-top: 20px; color: #64748b; font-size: 0.9rem; text-align: center;"
+                    p "Tip: Your code is cached for 10 minutes. Running the same code twice is instant."
 
             script src="/static/compiler.js"
-            
-            footer
-                div class="container"
-                    p "Powered by ShellLite Web Runtime. We wrote everything using ShellLite only."
+            UniversalFooter
 
 when someone visits "/compiler"
     CompilerPage
 
 when someone submits to "/api/run"
-    use python "sys"
-    use python "subprocess"
-    use python "random"
-    use python "os"
-    # Workaround for double-dot access issue
-    use python "os.path" as os_path
-
-    req_data = request.json
-    code = req_data["code"]
+    received_data = request["json"]
+    program_code = received_data["code"]
     
-    # Generate unique filename
-    id = random.randint(1000, 999999)
-    filename = "run_" + str(id) + ".shl"
+    if program_code is ""
+        program_code = "say 'Hello World'"
+        
+    current_time = time.time()
+    for entry in os.listdir(".")
+        if entry.startswith("run_")
+            file_stats = os.stat(entry)
+            file_age = current_time - file_stats.st_mtime
+            if file_age > 600
+                os.remove(entry)
+                
+    content_hash = hashlib.md5(program_code.encode("utf-8")).hexdigest()
+    script_filename = "run_" + content_hash + ".shl"
     
-    write code to file filename
+    if path.exists(script_filename) is false
+        write program_code to file script_filename
     
-    result = "No output returned by compiler."
-
-    # Use subprocess.Popen to capture output with timeout and live reading behavior
-    script = "import subprocess, time, sys; " + 
-             "p = subprocess.Popen(['" + sys.executable.replace('\\', '\\\\') + "', '-m', 'shell_lite.main', 'run', '" + filename + "'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True); " +
-             "start = time.time(); " +
-             "output = ''; " +
-             "while True: " +
-             "    if p.poll() is not None: " +
-             "        output += p.stdout.read(); " +
-             "        break; " +
-             "    line = p.stdout.readline(); " +
-             "    if line: output += line; " +
-             "    if time.time() - start > 2: " +
-             "        p.kill(); " +
-             "        output += '\\n[Execution Timed Out (Limit: 2s)]'; " +
-             "        break; " +
-             "    time.sleep(0.01); " +
-             "print(output)"
-
-    exec_res = os.popen('"' + sys.executable + '" -c "' + script + '"')
-    result = exec_res.read()
-    exec_res.close()
+    execution_env = os.environ.copy()
     
-    if result == "":
-         result = "Executed successfully (No Output)"
-    elif result.strip() == "None":
-         result = "Executed successfully (No Output)"
+    shell_command = list of sys.executable, "-m", "shell_lite.main", "run", script_filename
     
-    # Simple cleanup using alias to avoid double dot
-    exists = os_path.exists(filename)
-    if exists:
-        os.remove(filename)
+    final_output = "Error: Execution failed"
+    try
+        execution_result = subprocess.run(shell_command, capture_output=yes, text=yes, timeout=5, env=execution_env)
+        
+        standard_output = execution_result.stdout
+        error_output = execution_result.stderr
+        
+        final_output = standard_output
+        if final_output is "" or final_output is None
+            final_output = error_output
+            
+        if final_output is not None
+            final_output = final_output.trim()
+    catch execution_error
+        final_output = "Execution Error: " + str(execution_error)
     
-    return result
+    if final_output is "" or final_output is None or final_output == "None"
+         final_output = "Executed successfully (No Output)"
+    
+    return final_output

@@ -40,13 +40,11 @@ when someone submits to "/api/run"
     use python "os"
     use python "sys"
     use python "subprocess"
-    # Workaround for double-dot access issue
     use python "os.path" as os_path
 
     req_data = request.json
     code = req_data["code"]
     
-    # Generate unique filename
     id = random.randint(1000, 999999)
     filename = "run_" + str(id) + ".shl"
     
@@ -54,7 +52,6 @@ when someone submits to "/api/run"
     
     result = "No output returned by compiler."
 
-    # Direct execution without try-catch to avoid interpreter bugs
     cmd = [sys.executable, "-m", "shell_lite.main", "run", filename]
     
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=5)
@@ -77,7 +74,6 @@ when someone submits to "/api/run"
     
     print("DEBUG: Result calculated: " + str(result))
     
-    # Simple cleanup using alias to avoid double dot
     exists = os_path.exists(filename)
     if exists:
         os.remove(filename)

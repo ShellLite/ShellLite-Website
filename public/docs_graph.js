@@ -1,12 +1,21 @@
-// True 3D Interactive Documentation Graph using 3d-force-graph
-
 async function loadGraph() {
     try {
+        const colors = {
+            "basics": "#60a5fa",
+            "intermediate": "#a855f7",
+            "advanced": "#fb923c",
+            "expert": "#f43f5e",
+            "reference": "#10b981",
+            "tutorials": "#f59e0b"
+        };
+
+        function getGroupColor(group) {
+            return colors[group] || '#94a3b8';
+        }
+
         const response = await fetch('/static/docs_graph.json');
         const data = await response.json();
 
-        // Transform data for 3d-force-graph
-        // It expects { nodes: [], links: [] } where links have 'source' and 'target'
         const gData = {
             nodes: data.nodes.map(n => ({
                 id: n.id,
@@ -24,49 +33,40 @@ async function loadGraph() {
 
         const container = document.getElementById('docs-graph');
 
-        // Initialize 3D Graph
         const Graph = ForceGraph3D()(container)
             .graphData(gData)
             .nodeLabel('name')
             .nodeColor('color')
-            .nodeRelSize(6)
-            .nodeResolution(16)
-            .linkWidth(2)
-            .linkDirectionalArrowLength(3.5)
+            .nodeRelSize(8) // Slightly larger nodes
+            .nodeResolution(24) // Smoother spheres
+            .linkWidth(1)
+            .linkDirectionalParticles(2) // Flowing particles for better UX
+            .linkDirectionalParticleSpeed(d => 0.005)
+            .linkDirectionalParticleWidth(2)
+            .linkDirectionalArrowLength(4)
             .linkDirectionalArrowRelPos(1)
-            .backgroundColor('#0d1117') // Matches dark theme
+            .backgroundColor('#030712') // Matches deep black theme
             .onNodeClick(node => {
                 if (node.url) {
                     window.location.href = node.url;
                 }
+            })
+            .onNodeHover(node => {
+                container.style.cursor = node ? 'pointer' : null;
             });
 
-        // Add some auto-rotation
-        // Graph.controls().autoRotate = true;
-        // Graph.controls().autoRotateSpeed = 0.5;
+        // Add auto-rotation
+        Graph.controls().autoRotate = true;
+        Graph.controls().autoRotateSpeed = 0.6;
 
-        // Force layout adjustments for hierarchy-ish look
-        Graph.d3Force('charge').strength(-120);
+        // Force layout adjustments
+        Graph.d3Force('charge').strength(-150);
+        Graph.d3Force('link').distance(60);
 
-        // Helper to match colors from previous JSON
-        function getGroupColor(group) {
-            const colors = {
-                "basics": "#58a6ff",
-                "intermediate": "#8b5cf6",
-                "advanced": "#f97316",
-                "expert": "#ef4444",
-                "reference": "#10b981",
-                "tutorials": "#f59e0b"
-            };
-            return colors[group] || '#ffffff';
-        }
-
-        // Adjust container size usage
-        // 3d-force-graph might default to full screen, we need to constrain it to container
+        // Responsive sizing
         Graph.width(container.clientWidth);
         Graph.height(container.clientHeight);
 
-        // Handle resize
         window.addEventListener('resize', () => {
             Graph.width(container.clientWidth);
             Graph.height(container.clientHeight);
@@ -75,7 +75,7 @@ async function loadGraph() {
     } catch (err) {
         console.error('Failed to load 3D graph:', err);
         document.getElementById('docs-graph').innerHTML =
-            '<p style="color: #f85149; text-align: center; padding: 40px;">Failed to load 3D graph</p>';
+            '<p style="color: #ef4444; text-align: center; padding: 40px;">Failed to load Interactive Learning Path</p>';
     }
 }
 

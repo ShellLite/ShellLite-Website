@@ -1,6 +1,3 @@
-// ShellLite Online Compiler - Enhanced UI
-
-// Run code via API
 async function runCode() {
     let code_input = document.getElementById("code-input");
     let code = code_input.value || "say 'Hello'";
@@ -23,12 +20,10 @@ async function runCode() {
     }
 }
 
-// Clear output
 function clearOutput() {
     document.getElementById("output-display").innerText = "// Output cleared";
 }
 
-// Tab key handling - insert 4 spaces
 function handleTab(e) {
     if (e.key === 'Tab') {
         e.preventDefault();
@@ -36,19 +31,12 @@ function handleTab(e) {
         let start = textarea.selectionStart;
         let end = textarea.selectionEnd;
         let value = textarea.value;
-
-        // Insert 4 spaces
         textarea.value = value.substring(0, start) + "    " + value.substring(end);
-
-        // Move cursor after the inserted spaces
         textarea.selectionStart = textarea.selectionEnd = start + 4;
-
-        // Trigger line number update
         updateLineNumbers();
     }
 }
 
-// Update line numbers
 function updateLineNumbers() {
     let textarea = document.getElementById("code-input");
     let lineNumbers = document.getElementById("line-numbers");
@@ -62,7 +50,6 @@ function updateLineNumbers() {
     lineNumbers.innerText = numbers.join('\n');
 }
 
-// Sync scroll between textarea and line numbers
 function syncScroll(e) {
     let lineNumbers = document.getElementById("line-numbers");
     if (lineNumbers) {
@@ -70,7 +57,6 @@ function syncScroll(e) {
     }
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', function () {
     let textarea = document.getElementById("code-input");
     if (textarea) {
@@ -80,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLineNumbers();
     }
 
-    // Keyboard shortcut: Ctrl+Enter to run
     document.addEventListener('keydown', function (e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             runCode();
