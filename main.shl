@@ -57,7 +57,7 @@ define page LandingPage
                     
                     div class="action-buttons"
                         a href="/compiler" class="btn btn-primary" "Try Online Compiler"
-                        a href="/static/ShellLite.exe" class="btn btn-outline" "Download ShellLite (v0.6.0)"
+                        a href="/static/shl.exe" class="btn btn-outline" "Download ShellLite (v0.6.0.P)"
 
             div class="container"
                 div class="grid"
