@@ -17,7 +17,7 @@ define page CompilerPage
 
             div class="container" style="padding-top: 60px;"
                 h1 "Interactive Playground"
-                p class="tagline" "Write ShellLite code in your browser and see it run instantly with native performance."
+                p class="tagline" "Write ShellLite code in your browser & Test it out!"
                 
                 div class="compiler-container"
                     div class="compiler-header"

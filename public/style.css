@@ -1,15 +1,15 @@
 :root {
-    --bg-color: #080a0f;
+    --bg-color: #030712;
     --surface-color: #111827;
     --surface-light: #1f2937;
-    --border-color: #2d3748;
+    --border-color: rgba(255, 255, 255, 0.1);
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
-    --accent-color: #3b82f6;
-    --accent-hover: #2563eb;
-    --btn-primary-bg: #3b82f6;
-    --btn-primary-hover: #2563eb;
-    --terminal-bg: #000000;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #8b5cf6;
+    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    --glass-bg: rgba(17, 24, 39, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -33,13 +33,13 @@ h1, h2, h3, h4 {
 }
 
 a {
-    color: var(--accent-color);
+    color: var(--accent-primary);
     text-decoration: none;
     transition: var(--transition-smooth);
 }
 
 a:hover {
-    color: var(--accent-hover);
+    color: var(--accent-primary);
 }
 
 /* Layout */
@@ -51,9 +51,10 @@ a:hover {
 
 /* Header */
 header {
-    background-color: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem 0;
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -76,7 +77,7 @@ header .logo {
 
 header .logo::before {
     content: '>';
-    color: var(--accent-color);
+    color: var(--accent-primary);
     font-family: 'JetBrains Mono', monospace;
 }
 
@@ -102,10 +103,14 @@ header .nav-links a:hover {
 }
 
 .hero h1 {
-    font-size: 4.5rem;
-    line-height: 1;
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1.1;
     margin-bottom: 24px;
-    color: #ffffff;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.05em;
 }
 
 .hero p.tagline {
@@ -115,6 +120,7 @@ header .nav-links a:hover {
     max-width: 720px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.8;
 }
 
 /* Buttons */
@@ -132,12 +138,12 @@ header .nav-links a:hover {
 }
 
 .btn-primary {
-    background-color: var(--accent-color);
+    background-color: var(--accent-primary);
     color: #ffffff;
 }
 
 .btn-primary:hover {
-    background-color: var(--accent-hover);
+    background-color: var(--accent-primary);
     transform: translateY(-1px);
 }
 
@@ -175,7 +181,7 @@ header .nav-links a:hover {
 }
 
 .card:hover {
-    border-color: var(--accent-color);
+    border-color: var(--accent-primary);
     transform: translateY(-4px);
 }
 
@@ -315,26 +321,159 @@ footer {
     .hero h1 { font-size: 3rem; }
 }
 
-.docs-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 15px;
+/* Documentation Layout */
+.docs-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    padding-top: 40px;
+    align-items: start;
 }
 
-.docs-list a {
-    text-decoration: none;
+.docs-sidebar {
+    position: sticky;
+    top: 100px;
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    padding-right: 20px;
+    border-right: 1px solid var(--border-color);
+}
+
+.docs-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.docs-sidebar::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+.sidebar-group {
+    margin-bottom: 24px;
+}
+
+.sidebar-group h4 {
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 8px 12px;
     color: var(--text-primary);
-    background-color: rgba(255, 255, 255, 0.03);
-    padding: 10px 14px;
-    border-radius: 6px;
     font-size: 0.9rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    margin-bottom: 4px;
     transition: var(--transition-smooth);
 }
 
-.docs-list a:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: var(--accent-color);
-    transform: translateX(4px);
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-primary);
+}
+
+.sidebar-link.active {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.docs-content {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.markdown-body h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.markdown-body h2 {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-primary);
+}
+
+.markdown-body p {
+    margin-bottom: 1.25rem;
+    color: #e2e8f0;
+    line-height: 1.8;
+}
+
+.markdown-body code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.markdown-body pre {
+    background: #0d1117 !important;
+    padding: 24px !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--border-color) !important;
+    margin: 1.5rem 0 !important;
+    position: relative;
+}
+
+/* Prism Overrides */
+code[class*="language-"],
+pre[class*="language-"] {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.9rem !important;
+}
+
+.docs-nav-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border-color);
+}
+
+.nav-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 45%;
+}
+
+.nav-btn span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-btn a {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--accent-primary);
+}
+
+.docs-graph-container {
+    background: var(--surface-color);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 1000px) {
+    .docs-layout {
+        grid-template-columns: 1fr;
+    }
+    .docs-sidebar {
+        display: none;
+    }
 }

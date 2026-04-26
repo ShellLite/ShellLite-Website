@@ -1,12 +1,12 @@
 async function loadGraph() {
     try {
         const colors = {
-            "basics": "#60a5fa",
-            "intermediate": "#a855f7",
-            "advanced": "#fb923c",
-            "expert": "#f43f5e",
+            "basics": "#3b82f6",
+            "intermediate": "#8b5cf6",
+            "advanced": "#f59e0b",
+            "expert": "#ef4444",
             "reference": "#10b981",
-            "tutorials": "#f59e0b"
+            "tutorials": "#06b6d4"
         };
 
         function getGroupColor(group) {

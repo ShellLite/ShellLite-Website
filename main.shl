@@ -41,7 +41,7 @@ define page UniversalFooter
             p 
                 span "This website was written using "
                 strong "ShellLite."
-                span style="font-style: italic; color: #60a5fa;" "Code like you think!"
+                span style="font-style: italic; color: #60a5fa;" " Code like you think!"
             p style="font-size: 0.8em; margin-top: 10px;" "© 2025-Present Shrey Naithani"
 
 define page LandingPage
@@ -101,42 +101,42 @@ define page DocumentationBrowser
             
             div class="container" style="padding-top: 40px;"
                 h1 "Documentation"
-                p class="tagline" "Master the art of English-like programming."
+                p class="tagline" "Master the art of programming in ShellLite!"
                 
                 div class="graph-section"
                     h2 "Visual Learning Path"
-                    p "Click a topic to explore. Follow the arrows for recommended learning order."
-                    div id="docs-graph" class="docs-graph-container"
+                    p class="tagline" style="margin-bottom: 20px;" "Click a topic to explore. Follow the arrows for recommended learning order."
+                    div id="docs-graph" class="docs-graph-container" style="height: 500px;"
                 
                 div class="grid"
                     div class="card"
                         h3 "Essentials"
                         div class="docs-list"
-                            a href="/docs/01_Getting_Started.md" "01. Getting Started"
-                            a href="/docs/02_Language_Basics.md" "02. Language Basics"
-                            a href="/docs/03_Control_Flow.md" "03. Control Flow"
-                            a href="/docs/04_Data_Structures.md" "04. Data Structures"
-                            a href="/docs/05_Functions_and_OOP.md" "05. Functions & OOP"
+                            a href="/docs/01_Getting_Started.md" class="sidebar-link" "01. Getting Started"
+                            a href="/docs/02_Language_Basics.md" class="sidebar-link" "02. Language Basics"
+                            a href="/docs/03_Control_Flow.md" class="sidebar-link" "03. Control Flow"
+                            a href="/docs/04_Data_Structures.md" class="sidebar-link" "04. Data Structures"
+                            a href="/docs/05_Functions_and_OOP.md" class="sidebar-link" "05. Functions & OOP"
                     
                     div class="card"
                         h3 "Advanced Mastery"
                         div class="docs-list"
-                            a href="/docs/06_Modules_and_StdLib.md" "06. Modules & StdLib"
-                            a href="/docs/07_System_Mastery.md" "07. System Mastery"
-                            a href="/docs/08_Web_Development.md" "08. Web Development"
-                            a href="/docs/09_Advanced_Features.md" "09. Advanced Features"
-                            a href="/docs/10_Compilation_and_Performance.md" "10. Compilation"
-                            a href="/docs/11_Testing_and_Debugging.md" "11. Testing & Debugging"
+                            a href="/docs/06_Modules_and_StdLib.md" class="sidebar-link" "06. Modules & StdLib"
+                            a href="/docs/07_System_Mastery.md" class="sidebar-link" "07. System Mastery"
+                            a href="/docs/08_Web_Development.md" class="sidebar-link" "08. Web Development"
+                            a href="/docs/09_Advanced_Features.md" class="sidebar-link" "09. Advanced Features"
+                            a href="/docs/10_Compilation_and_Performance.md" class="sidebar-link" "10. Compilation"
+                            a href="/docs/11_Testing_and_Debugging.md" class="sidebar-link" "11. Testing & Debugging"
                     
                     div class="card"
                         h3 "Reference"
                         div class="docs-list"
-                            a href="/docs/12_API_Reference.md" "12. API Reference"
-                            a href="/docs/13_Security_Guide.md" "13. Security Guide"
-                            a href="/docs/14_Migration_Guide.md" "14. Migration Guide"
-                            a href="/docs/15_Troubleshooting.md" "15. Troubleshooting"
-                            a href="/docs/16_Examples_and_Tutorials.md" "16. Examples"
-                            a href="/docs/17_Best_Practices.md" "17. Best Practices"
+                            a href="/docs/12_API_Reference.md" class="sidebar-link" "12. API Reference"
+                            a href="/docs/13_Security_Guide.md" class="sidebar-link" "13. Security Guide"
+                            a href="/docs/14_Migration_Guide.md" class="sidebar-link" "14. Migration Guide"
+                            a href="/docs/15_Troubleshooting.md" class="sidebar-link" "15. Troubleshooting"
+                            a href="/docs/16_Examples_and_Tutorials.md" class="sidebar-link" "16. Examples"
+                            a href="/docs/17_Best_Practices.md" class="sidebar-link" "17. Best Practices"
  
             script src="/static/docs_graph.js"
             UniversalFooter
@@ -144,15 +144,29 @@ define page DocumentationBrowser
 define page DocumentReader
     html
         head
-            title "Reader - ShellLite"
+            title "Documentation Reader - ShellLite"
             link rel="stylesheet" href="/static/style.css"
+            link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
             script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+            script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+            script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"
             script src="/static/doc_viewer.js"
         body
             GlobalNavigation
             
-            div class="container" style="padding: 60px 20px; min-height: 60vh;"
-                div id="content" class="markdown-body" "Opening document..."
+            div class="container"
+                div class="docs-layout"
+                    div id="sidebar" class="docs-sidebar"
+                        p style="color: var(--text-secondary); font-size: 0.8rem;" "Loading navigation..."
+                    
+                    div class="docs-main"
+                        div id="content" class="docs-content markdown-body" 
+                            h1 "Opening document..."
+                            p "Please wait while we fetch the contents."
+                        
+                        div id="nav-footer" class="docs-nav-footer"
+                            div class="nav-btn" id="prev-btn"
+                            div class="nav-btn" id="next-btn"
 
             UniversalFooter
 
@@ -164,16 +178,16 @@ define page ContactPage
             
             div class="container" style="padding-top: 60px; min-height: 70vh;"
                 div class="card" style="max-width: 700px; margin: 0 auto; text-align: center;"
-                    h1 "Let's Connect"
-                    p class="tagline" "Have questions? We're here to help."
-                    
+                    h1 "Have questions? We are here to help :)"
+
                     div style="margin-top: 40px; text-align: left;"
                         p 
                             strong "Email: " 
                             span "contact@shelllite.tech"
+                            span "shrey.naithani@shelllite.tech"
                         p 
                             strong "GitHub: " 
-                            a href="https://github.com/Shrey-N/ShellLite/issues" "Report a bug or request a feature"
+                            a href="https://github.com/ShellLite/ShellLite/issues" "Report a bug or request a feature"
             
             UniversalFooter
 
