@@ -65,7 +65,7 @@ define page LandingPage
                 div class="grid"
                     div class="card"
                         h3 "The ShellLite Book"
-                        p "Learn the architecture and ShellLite."
+                        p "Learn the architecture of ShellLite and Natural Language Programming."
                         div style="margin-top: 15px;"
                             a href="https://books2read.com/b/mVpoXM" class="btn btn-outline" "Read Now"
                     div class="card"
