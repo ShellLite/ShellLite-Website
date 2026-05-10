@@ -6,30 +6,30 @@
     --surface-light: #131715;
     --border-color: rgba(118, 191, 146, 0.15);
     --border-hover: rgba(118, 191, 146, 0.45);
-    
+
     --text-primary: #ffffff;
     --text-secondary: #a3a3a3;
     --text-muted: #666666;
-    
+
     --python-blue: #76bf92;
     --python-blue-light: #9edcb5;
     --python-yellow: #76bf92;
     --python-yellow-light: #a1d7b6;
     --accent-emerald: #76bf92;
     --accent-emerald-hover: #5ea078;
-    
+
     --accent-primary: var(--python-blue-light);
     --accent-secondary: var(--python-yellow);
     --accent-gradient: linear-gradient(135deg, #76bf92 0%, #5ea078 100%);
     --accent-gradient-gold: linear-gradient(135deg, #76bf92 0%, #9edcb5 100%);
     --text-gradient: linear-gradient(135deg, #ffffff 40%, #76bf92 100%);
-    
+
     --terminal-bg: #040505;
     --editor-bg: #070808;
-    
+
     --glass-bg: rgba(10, 13, 12, 0.8);
     --glass-border: rgba(118, 191, 146, 0.12);
-    
+
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --glow-shadow: 0 12px 40px rgba(118, 191, 146, 0.15);
     --gold-glow: 0 12px 30px rgba(118, 191, 146, 0.1);
@@ -70,7 +70,12 @@ body {
     background: var(--python-blue-light);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 800;
     letter-spacing: -0.025em;
     margin: 0;
@@ -221,8 +226,15 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .action-buttons {
@@ -293,7 +305,7 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
 .card:hover {
     border-color: var(--python-yellow);
     transform: translateY(-6px);
-    box-shadow: var(--glow-shadow), 0 15px 35px rgba(0,0,0,0.3);
+    box-shadow: var(--glow-shadow), 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .card h3 {
@@ -313,7 +325,8 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
     margin: 0;
 }
 
-.compiler-container, .editor-container {
+.compiler-container,
+.editor-container {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 16px;
@@ -326,12 +339,14 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
     transition: var(--transition-smooth);
 }
 
-.compiler-container:hover, .editor-container:hover {
+.compiler-container:hover,
+.editor-container:hover {
     border-color: rgba(48, 105, 152, 0.4);
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
 }
 
-.compiler-header, .pane-header {
+.compiler-header,
+.pane-header {
     background-color: #0c1221;
     padding: 14px 24px;
     display: flex;
@@ -415,7 +430,8 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
     letter-spacing: 0.08em;
 }
 
-#output-display, .output-content {
+#output-display,
+.output-content {
     flex: 1;
     padding: 20px;
     font-family: 'JetBrains Mono', monospace;
@@ -603,7 +619,8 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
     font-size: 1.05rem;
 }
 
-.markdown-body ul, .markdown-body ol {
+.markdown-body ul,
+.markdown-body ol {
     padding-left: 24px;
     margin-bottom: 1.5rem;
     color: #cbd5e1;
@@ -632,7 +649,7 @@ header .nav-links a[href="https://github.com/ShellLite/ShellLite"]::after {
     border: 1px solid var(--border-color) !important;
     margin: 2rem 0 !important;
     position: relative;
-    box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .markdown-body pre code {
@@ -748,7 +765,7 @@ footer strong {
         grid-template-columns: 1fr;
         gap: 32px;
     }
-    
+
     .docs-sidebar {
         display: none;
     }
@@ -758,42 +775,42 @@ footer strong {
     .hero h1 {
         font-size: 3.5rem;
     }
-    
+
     .compiler-container {
         height: auto;
     }
-    
+
     .compiler-body {
         flex-direction: column;
     }
-    
+
     .editor-pane {
         border-right: none;
         border-bottom: 1px solid var(--border-color);
         height: 380px;
     }
-    
+
     .output-pane {
         width: 100%;
         height: 240px;
     }
-    
+
     .action-buttons {
         flex-direction: column;
         width: 100%;
         max-width: 320px;
         margin: 0 auto;
     }
-    
+
     .btn {
         width: 100%;
     }
-    
+
     header nav {
         flex-direction: column;
         gap: 16px;
     }
-    
+
     header .nav-links {
         gap: 20px;
         flex-wrap: wrap;

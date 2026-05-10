@@ -10,14 +10,14 @@ serve files from "public" at "/static"
 define page PageMetadata using title_text
     head
         title title_text
-        link rel="stylesheet" href="/static/style.css"
+        link rel="stylesheet" href="/static/style.css?v=0.6.1"
         meta charset="utf-8"
         meta name="viewport" content="width=device-width, initial-scale=1.0"
 
 define page LandingPageMetadata using title_text
     head
         title title_text
-        link rel="stylesheet" href="/static/style.css"
+        link rel="stylesheet" href="/static/style.css?v=0.6.1"
         meta charset="utf-8"
         meta name="viewport" content="width=device-width, initial-scale=1.0"
         script type="application/ld+json" 
@@ -81,7 +81,7 @@ define page DocumentationBrowser
     html
         head
             title "Documentation - ShellLite"
-            link rel="stylesheet" href="/static/style.css"
+            link rel="stylesheet" href="/static/style.css?v=0.6.1"
             meta charset="utf-8"
             meta name="viewport" content="width=device-width, initial-scale=1.0"
             script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1/dist/3d-force-graph.min.js"
@@ -134,7 +134,7 @@ define page DocumentReader
     html
         head
             title "Documentation Reader - ShellLite"
-            link rel="stylesheet" href="/static/style.css"
+            link rel="stylesheet" href="/static/style.css?v=0.6.1"
             link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
             script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
             script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"

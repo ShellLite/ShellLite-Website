@@ -9,7 +9,7 @@ define page CompilerPage
     html
         head
             title "Interactive Playground - ShellLite"
-            link rel="stylesheet" href="/static/style.css"
+            link rel="stylesheet" href="/static/style.css?v=0.6.1"
             meta charset="utf-8"
             meta name="viewport" content="width=device-width, initial-scale=1.0"
         body
