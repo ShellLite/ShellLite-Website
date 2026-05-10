@@ -15,18 +15,12 @@ define page CompilerPage
         body
             GlobalNavigation
 
-            div class="container" style="padding-top: 60px;"
-                h1 "Interactive Playground"
-                p class="tagline" "Write ShellLite code in your browser & Test it out!"
-                
+            div class="container" style="padding-top: 40px;"
                 div class="compiler-container"
                     div class="compiler-header"
                         div style="display: flex; align-items: center; gap: 12px;"
-                            div style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56;"
-                            div style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e;"
-                            div style="width: 12px; height: 12px; border-radius: 50%; background: #27c93f;"
-                            span style="margin-left: 8px; font-size: 0.85rem; font-weight: 600; color: #94a3b8;" "main.shl"
-                        button class="run-btn" onclick="runCode()" "Run Program"
+                            span style="font-size: 0.85rem; font-weight: 600; color: #94a3b8;" "main.shl"
+                        button class="run-btn" onclick="runCode()" "Run"
                     
                     div class="compiler-body"
                         div class="editor-pane"

@@ -1,16 +1,16 @@
 async function loadGraph() {
     try {
         const colors = {
-            "basics": "#3b82f6",
-            "intermediate": "#8b5cf6",
-            "advanced": "#f59e0b",
-            "expert": "#ef4444",
-            "reference": "#10b981",
-            "tutorials": "#06b6d4"
+            "basics": "#76bf92",
+            "intermediate": "#5ea078",
+            "advanced": "#a1d7b6",
+            "expert": "#76bf92",
+            "reference": "#a1d7b6",
+            "tutorials": "#5ea078"
         };
 
         function getGroupColor(group) {
-            return colors[group] || '#94a3b8';
+            return colors[group] || '#76bf92';
         }
 
         const response = await fetch('/static/docs_graph.json');
@@ -45,7 +45,7 @@ async function loadGraph() {
             .linkDirectionalParticleWidth(2)
             .linkDirectionalArrowLength(4)
             .linkDirectionalArrowRelPos(1)
-            .backgroundColor('#030712') // Matches deep black theme
+            .backgroundColor('#000000') // Matches deep black theme
             .onNodeClick(node => {
                 if (node.url) {
                     window.location.href = node.url;
