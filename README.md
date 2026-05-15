@@ -27,4 +27,4 @@ This project demonstrates the capabilities of ShellLite as a web server language
 - `public/`: Static assets (CSS, JS, binaries).
 
 ---
-*Powered by [ShellLite](https://github.com/Shell   Lite/ShellLite).*
+*Powered by [ShellLite](https://github.com/ShellLite/ShellLite).*
