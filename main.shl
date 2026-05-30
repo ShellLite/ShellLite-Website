@@ -31,7 +31,7 @@ define page GlobalNavigation
                 div class="nav-links"
                     a href="/" "Home"
                     a href="/compiler" "Compiler"
-                    a href="/docs" "Docs"
+                    a href="/docs/Changelog.md" "Changelog"
                     a href="/contact" "Contact"
                     a href="https://github.com/ShellLite/ShellLite" "GitHub"
 
@@ -77,85 +77,24 @@ define page LandingPage
 
             UniversalFooter
 
-define page DocumentationBrowser
-    html
-        head
-            title "Documentation - ShellLite"
-            link rel="stylesheet" href="/static/style.css?v=0.6.1"
-            meta charset="utf-8"
-            meta name="viewport" content="width=device-width, initial-scale=1.0"
-            script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1/dist/3d-force-graph.min.js"
-        body
-            GlobalNavigation
-            
-            div class="container" style="padding-top: 40px;"
-                h1 "Documentation"
-                p class="tagline" "Master the art of programming in ShellLite!"
-                
-                div class="graph-section"
-                    h2 "Visual Learning Path"
-                    p class="tagline" style="margin-bottom: 20px;" "Click a topic to explore. Follow the arrows for recommended learning order."
-                    div id="docs-graph" class="docs-graph-container" style="height: 500px;"
-                
-                div class="grid"
-                    div class="card"
-                        h3 "Essentials"
-                        div class="docs-list"
-                            a href="/docs/01_Getting_Started.md" class="sidebar-link" "01. Getting Started"
-                            a href="/docs/02_Language_Basics.md" class="sidebar-link" "02. Language Basics"
-                            a href="/docs/03_Control_Flow.md" class="sidebar-link" "03. Control Flow"
-                            a href="/docs/04_Data_Structures.md" class="sidebar-link" "04. Data Structures"
-                            a href="/docs/05_Functions_and_OOP.md" class="sidebar-link" "05. Functions & OOP"
-                    
-                    div class="card"
-                        h3 "Advanced Mastery"
-                        div class="docs-list"
-                            a href="/docs/06_Modules_and_StdLib.md" class="sidebar-link" "06. Modules & StdLib"
-                            a href="/docs/07_System_Mastery.md" class="sidebar-link" "07. System Mastery"
-                            a href="/docs/08_Web_Development.md" class="sidebar-link" "08. Web Development"
-                            a href="/docs/09_Advanced_Features.md" class="sidebar-link" "09. Advanced Features"
-                            a href="/docs/10_Compilation_and_Performance.md" class="sidebar-link" "10. Compilation"
-                            a href="/docs/11_Testing_and_Debugging.md" class="sidebar-link" "11. Testing & Debugging"
-                    
-                    div class="card"
-                        h3 "Reference"
-                        div class="docs-list"
-                            a href="/docs/12_API_Reference.md" class="sidebar-link" "12. API Reference"
-                            a href="/docs/13_Security_Guide.md" class="sidebar-link" "13. Security Guide"
-                            a href="/docs/14_Migration_Guide.md" class="sidebar-link" "14. Migration Guide"
-                            a href="/docs/15_Troubleshooting.md" class="sidebar-link" "15. Troubleshooting"
-                            a href="/docs/16_Examples_and_Tutorials.md" class="sidebar-link" "16. Examples"
-                            a href="/docs/17_Best_Practices.md" class="sidebar-link" "17. Best Practices"
- 
-            script src="/static/docs_graph.js"
-            UniversalFooter
-
 define page DocumentReader
     html
         head
-            title "Documentation Reader - ShellLite"
+            title "Changelog - ShellLite"
             link rel="stylesheet" href="/static/style.css?v=0.6.1"
             link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
             script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
             script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
-            script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"
             script src="/static/doc_viewer.js"
         body
             GlobalNavigation
             
             div class="container"
-                div class="docs-layout"
-                    div id="sidebar" class="docs-sidebar"
-                        p style="color: var(--text-secondary); font-size: 0.8rem;" "Loading navigation..."
-                    
-                    div class="docs-main"
+                div class="docs-layout" style="display: block;"
+                    div class="docs-main" style="width: 100%;"
                         div id="content" class="docs-content markdown-body" 
                             h1 "Opening document..."
                             p "Please wait while we fetch the contents."
-                        
-                        div id="nav-footer" class="docs-nav-footer"
-                            div class="nav-btn" id="prev-btn"
-                            div class="nav-btn" id="next-btn"
 
             UniversalFooter
 
@@ -182,13 +121,11 @@ define page ContactPage
 when someone visits "/"
     LandingPage
 
-when someone visits "/docs"
-    DocumentationBrowser
-
 when someone visits "/docs/:file"
     DocumentReader
 
 when someone visits "/contact"
     ContactPage
 
+say "Starting ShellLite Website on port 8080..."
 start website
