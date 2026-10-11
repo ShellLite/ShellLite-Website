@@ -1,90 +1,142 @@
-use python "subprocess"
-use python "os"
-use python "os.path" as path
-use python "sys"
-use python "hashlib"
-use python "time"
+use "subprocess"
 
-define page CompilerPage
-    html
-        head
-            title "Interactive Playground - ShellLite"
-            link rel="stylesheet" href="/static/style.css?v=0.6.1"
-            meta charset="utf-8"
-            meta name="viewport" content="width=device-width, initial-scale=1.0"
-        body
-            GlobalNavigation
+SHLCPP_BIN = "shlcpp"
 
-            div class="container" style="padding-top: 40px;"
-                div class="compiler-container"
-                    div class="compiler-header"
-                        div style="display: flex; align-items: center; gap: 12px;"
-                            span style="font-size: 0.85rem; font-weight: 600; color: #94a3b8;" "main.shl"
-                        button class="run-btn" onclick="runCode()" "Run"
-                    
-                    div class="compiler-body"
-                        div class="editor-pane"
-                            div id="line-numbers" class="line-numbers" "1"
-                            div class="editor-wrapper"
-                                textarea id="code-input" spellcheck="false" "say 'Welcome to the ShellLite Playground!'"
-                        
-                        div class="output-pane"
-                            div class="output-header"
-                                span "TERMINAL"
-                                button class="btn" style="background: transparent; color: #64748b; font-size: 0.7rem; padding: 4px 8px;" onclick="clearOutput()" "CLEAR"
-                            div id="output-display" "// Program output will appear here..."
-                
-                div style="margin-top: 20px; color: #64748b; font-size: 0.9rem; text-align: center;"
-                    p "Tip: Your code is cached for 10 minutes. Running the same code twice is instant."
+to next_run_id()
+    give str(std_time_ms()) + "_" + str(randint(0, 999999))
 
-            script src="/static/compiler.js"
-            UniversalFooter
+define page compiler_page using
+    give std_ui_widget("html", {}, [
+        std_ui_widget("head", {}, [
+            std_ui_widget("title", {}, ["Interactive Playground - shlcpp"]),
+            std_ui_widget("link", {"rel": "stylesheet", "href": "/static/style.css?v=0.6.1"}, []),
+            std_ui_widget("meta", {"charset": "utf-8"}, []),
+            std_ui_widget("meta", {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}, [])
+        ]),
+        std_ui_widget("body", {}, [
+            global_navigation(),
+            std_ui_widget("div", {"class": "container", "style": "padding-top: 40px;"}, [
+                std_ui_widget("div", {"class": "compiler-container"}, [
+                    std_ui_widget("div", {"class": "compiler-header"}, [
+                        std_ui_widget("div", {"style": "display: flex; align-items: center; gap: 12px;"}, [
+                            std_ui_widget("span", {"style": "font-size: 0.85rem; font-weight: 600; color: #94a3b8;"}, ["main.shl"])
+                        ]),
+                        std_ui_widget("button", {"class": "run-btn", "onclick": "runCode()"}, ["Run"])
+                    ]),
+                    std_ui_widget("div", {"class": "compiler-body"}, [
+                        std_ui_widget("div", {"class": "editor-pane"}, [
+                            std_ui_widget("div", {"id": "line-numbers", "class": "line-numbers"}, ["1"]),
+                            std_ui_widget("div", {"class": "editor-wrapper"}, [
+                                std_ui_widget("textarea", {"id": "code-input", "spellcheck": "false"}, ["say 'Welcome to the shlcpp Playground!'"])
+                            ])
+                        ]),
+                        std_ui_widget("div", {"class": "output-pane"}, [
+                            std_ui_widget("div", {"class": "output-header"}, [
+                                std_ui_widget("span", {}, ["TERMINAL"]),
+                                std_ui_widget("button", {"class": "btn", "style": "background: transparent; color: #64748b; font-size: 0.7rem; padding: 4px 8px;", "onclick": "clearOutput()"}, ["CLEAR"])
+                            ]),
+                            std_ui_widget("div", {"id": "output-display"}, ["// Program output will appear here..."])
+                        ])
+                    ]),
+                    std_ui_widget("div", {"class": "stdin-container"}, [
+                        std_ui_widget("div", {"class": "stdin-header", "onclick": "toggleStdin()"}, [
+                            std_ui_widget("div", {"style": "display: flex; align-items: center; gap: 8px;"}, [
+                                std_ui_widget("span", {"style": "font-size: 0.8rem; font-weight: 600; color: #cbd5e1;"}, ["Standard Input (stdin)"]),
+                                std_ui_widget("span", {"id": "stdin-badge", "class": "stdin-badge", "style": "display: none;"}, ["active"])
+                            ]),
+                            std_ui_widget("span", {"id": "stdin-toggle-text", "style": "font-size: 0.75rem; color: #64748b;"}, ["Click to expand ▼"])
+                        ]),
+                        std_ui_widget("div", {"id": "stdin-drawer", "class": "stdin-drawer", "style": "display: none;"}, [
+                            std_ui_widget("p", {"style": "font-size: 0.75rem; color: #64748b; margin-bottom: 8px;"}, ["Provide input for ask / input statements (one line per prompt):"]),
+                            std_ui_widget("textarea", {"id": "stdin-input", "placeholder": "e.g.\n50\n75\n62", "spellcheck": "false"}, [])
+                        ])
+                    ])
+                ]),
+                std_ui_widget("div", {"style": "margin-top: 20px; color: #64748b; font-size: 0.9rem; text-align: center;"}, [
+                    std_ui_widget("p", {}, ["Tip: press Ctrl+Enter to run your code."])
+                ])
+            ]),
+            std_ui_widget("script", {"src": "/static/compiler.js"}, []),
+            universal_footer()
+        ])
+    ])
 
-when someone visits "/compiler"
-    CompilerPage
+to compiler_handler(req)
+    give "<!DOCTYPE html>" + compiler_page()
 
-when someone submits to "/api/run"
-    received_data = request["json"]
-    program_code = received_data["code"]
-    
-    if program_code is ""
-        program_code = "say 'Hello World'"
-        
-    current_time = time.time()
-    for entry in os.listdir(".")
-        if entry.startswith("run_")
-            file_stats = os.stat(entry)
-            file_age = current_time - file_stats.st_mtime
-            if file_age > 600
-                os.remove(entry)
-                
-    content_hash = hashlib.md5(program_code.encode("utf-8")).hexdigest()
-    script_filename = "run_" + content_hash + ".shl"
-    
-    if path.exists(script_filename) is false
-        write program_code to file script_filename
-    
-    execution_env = os.environ.copy()
-    
-    shell_command = list of sys.executable, "-m", "shell_lite.main", "run", script_filename
-    
-    final_output = "Error: Execution failed"
+to api_run_handler(req)
+    output = "Error: could not run that code"
     try
-        execution_result = subprocess.run(shell_command, capture_output=yes, text=yes, timeout=5, env=execution_env)
-        
-        standard_output = execution_result.stdout
-        error_output = execution_result.stderr
-        
-        final_output = standard_output
-        if final_output is "" or final_output is None
-            final_output = error_output
-            
-        if final_output is not None
-            final_output = final_output.trim()
-    catch execution_error
-        final_output = "Execution Error: " + str(execution_error)
-    
-    if final_output is "" or final_output is None or final_output == "None"
-         final_output = "Executed successfully (No Output)"
-    
-    return final_output
+        code = ""
+        stdin_val = ""
+        if dict_has(req, "body") and req["body"] != ""
+            try
+                data = json_parse(req["body"])
+                if dict_has(data, "code")
+                    code = data["code"]
+                if dict_has(data, "stdin")
+                    stdin_val = data["stdin"]
+            catch err_body
+                code = req["body"]
+
+        if code == ""
+            if dict_has(req, "query") and dict_has(req["query"], "code")
+                code = req["query"]["code"]
+
+        if stdin_val == ""
+            if dict_has(req, "query") and dict_has(req["query"], "stdin")
+                stdin_val = req["query"]["stdin"]
+
+        if code == ""
+            code = "say 'Welcome to the shlcpp Playground!'"
+
+        tag = next_run_id()
+        shl_file = "run_" + tag + ".shl"
+        out_file = "run_" + tag + ".out"
+        in_file = "run_" + tag + ".in"
+        has_custom_in = false
+        try
+            io_write(shl_file, code)
+            bin_cmd = SHLCPP_BIN
+            if std_os_name() == "windows"
+                if io_exists("../shlcpp/shlcpp.exe")
+                    bin_cmd = "..\\shlcpp\\shlcpp.exe"
+                elif io_exists("shlcpp.exe")
+                    bin_cmd = "shlcpp.exe"
+
+            in_redir = ""
+            if stdin_val != ""
+                io_write(in_file, stdin_val)
+                has_custom_in = true
+                in_redir = "< " + in_file
+            else
+                if std_os_name() == "windows"
+                    in_redir = "< NUL"
+                else
+                    in_redir = "< /dev/null"
+
+            cmd = bin_cmd + " " + shl_file + " " + in_redir + " > " + out_file + " 2>&1"
+            if std_os_name() == "linux"
+                cmd = "timeout 5 " + cmd
+            subprocess.run(cmd)
+            if io_exists(out_file)
+                output = io_read(out_file)
+            else
+                output = "No output produced"
+        finally
+            if io_exists(shl_file)
+                io_delete(shl_file)
+            if io_exists(out_file)
+                io_delete(out_file)
+            if has_custom_in and io_exists(in_file)
+                io_delete(in_file)
+        output = str_trim(output)
+        if output == ""
+            output = "Executed successfully (No Output)"
+    catch err
+        output = "Error: " + str(err)
+    give output
+
+std_web_on_request("get", "/compiler", compiler_handler)
+std_web_on_request("post", "/api/run", api_run_handler)
+std_web_on_request("get", "/api/run", api_run_handler)
