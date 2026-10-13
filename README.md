@@ -2,7 +2,7 @@
 
 The official website for **Shlcpp**, written **mostly written in Shlcpp***.
 
-**Live at:** [shelllite.tech](http://shelllite.tech)
+**Live at:** [shelllite.tech](http://shelllite.tech) (not live rn)
 
 ## About
 This project demonstrates the capabilities of ShellLite as a web server language. Everything from the routing to the compiler backend is implemented using `shl` scripts.
@@ -11,7 +11,7 @@ This project demonstrates the capabilities of ShellLite as a web server language
 
 1. **Install Shlcpp from github**:
    ```bash
-   git clone Https://github.com/ShellLite/shlcpp
+   git clone Https://github.com/ShellLite/shlcpp.git
    ```
 2. Build Shlcpp
 
@@ -28,4 +28,4 @@ This project demonstrates the capabilities of ShellLite as a web server language
 - `public/`: Static assets (CSS, JS, binaries).
 
 ---
-*Powered by [ShellLite](https://github.com/ShellLite/shlcpp).*
+*Powered by [Shlcpp](https://github.com/ShellLite/shlcpp).*
