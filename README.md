@@ -2,7 +2,7 @@
 
 The official website for **Shlcpp**, written **mostly in Shlcpp***.
 
-**Live at:** [shelllite.tech](http://shelllite.tech) (not live rn)
+**Live at:** [shelllite.tech](http://shelllite.tech)
 
 ## About
 This project demonstrates the capabilities of ShellLite as a web server language. Everything from the routing to the compiler backend is implemented using `shl` scripts.
