@@ -9,14 +9,15 @@ This project demonstrates the capabilities of ShellLite as a web server language
 
 ## Running Locally
 
-1. **Install ShellLite**:
+1. **Install Shlcpp from github**:
    ```bash
-   pip install shell-lite
+   git clone Https://github.com/ShellLite/shlcpp
    ```
+2. Build Shlcpp
 
-2. **Run the Server**:
+3. **Run the Server**:
    ```bash
-   shl run main.shl
+   shlcpp main.shl
    ```
 
 3. **Visit**: `http://localhost:8080`
@@ -27,4 +28,4 @@ This project demonstrates the capabilities of ShellLite as a web server language
 - `public/`: Static assets (CSS, JS, binaries).
 
 ---
-*Powered by [ShellLite](https://github.com/ShellLite/ShellLite).*
+*Powered by [ShellLite](https://github.com/ShellLite/shlcpp).*
