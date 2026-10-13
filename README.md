@@ -1,6 +1,6 @@
 # ShellLite Website
 
-The official website for **Shlcpp**, written **mostly written in Shlcpp***.
+The official website for **Shlcpp**, written **mostly in Shlcpp***.
 
 **Live at:** [shelllite.tech](http://shelllite.tech) (not live rn)
 
